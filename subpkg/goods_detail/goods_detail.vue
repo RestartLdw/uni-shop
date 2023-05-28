@@ -16,6 +16,7 @@
         },
         onLoad(query) {
             console.log(query) 
+            async 
         }
     }
 </script>

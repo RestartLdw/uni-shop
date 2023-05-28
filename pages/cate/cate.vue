@@ -1,30 +1,36 @@
 <template>
-    <view class="scroll-view-container">
-        <!-- 左侧滑动区域 -->
-        <scroll-view class="left-scorll-view" scroll-y="true" :style="{height: windowHeight + 'px'}">
-            
-            <view v-for="(item, i) in cateList" :key="i" :class="['left-scroll-view-item',  i === active? 'active': '']" @click="activeChanged(i)">
-                {{item.cat_name}}
-            </view> 
-        </scroll-view>
-        <!-- 右侧滑动区域 -->
-        <scroll-view class="right-scroll-view" scroll-y="true" :scroll-top="scrollTop" :style="{height: windowHeight + 'px'}">
-            <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
-                <view class="cate-lv2-title">/{{item2.cat_name}}/</view>
-                <view class="cate-lv3-list">
-                    <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
-                        <image :src="item3.cat_icon"></image>
-                        <text>{{item3.cat_name}}</text>
+
+    <view>
+        <my-search @myclick="gotoSearchPage"></my-search>
+
+        <view class="scroll-view-container">
+            <!-- 左侧滑动区域 -->
+            <scroll-view class="left-scorll-view" scroll-y="true" :style="{height: windowHeight + 'px'}">
+                
+                <view v-for="(item, i) in cateList" :key="i" :class="['left-scroll-view-item',  i === active? 'active': '']" @click="activeChanged(i)">
+                    {{item.cat_name}}
+                </view> 
+            </scroll-view>
+            <!-- 右侧滑动区域 -->
+            <scroll-view class="right-scroll-view" scroll-y="true" :scroll-top="scrollTop" :style="{height: windowHeight + 'px'}">
+                <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
+                    <view class="cate-lv2-title">/{{item2.cat_name}}/</view>
+                    <view class="cate-lv3-list">
+                        <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
+                            <image :src="item3.cat_icon"></image>
+                            <text>{{item3.cat_name}}</text>
+                        </view>
+                        
                     </view>
-                    
                 </view>
-            </view>
+                
+            </scroll-view>
             
-        </scroll-view>
-        
-        <!-- <view v-for="(item, i) in navList" :key="i">
-            <image :src="item."
-        </view> -->
+            <!-- <view v-for="(item, i) in navList" :key="i">
+                <image :src="item."
+            </view> -->
+            
+        </view>
     </view>
 </template>
 
@@ -44,7 +50,7 @@
         onLoad() {
             const sysInfo = uni.getSystemInfoSync()
             // console.log(sysInfo)
-            this.windowHeight = sysInfo.windowHeight
+            this.windowHeight = sysInfo.windowHeight - 50
             
             this.getCateList()
             
@@ -67,7 +73,14 @@
                 uni.navigateTo({
                     url: '/subpkg/goods_list/goods_list?cid=' + item.cat_id
                 })
-            }
+            },
+            //转搜索页面
+            gotoSearchPage() {
+                console.log("goto search page")
+                uni.navigateTo({
+                    url: '/subpkg/search/search'
+                })
+            },
         }
     }
 </script>
