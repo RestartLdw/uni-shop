@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="goods-list">
-            <navigator v-for="(item, i) in goodsList" :key="i" :url="'/subpkg/goods_detail/goods_detail?good_id=' + item.goods_id">
+            <navigator v-for="(item, i) in goodsList" :key="i" :url="'/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id">
                 <my-goods :goods="item"></my-goods>
             </navigator> 
         </view>
@@ -28,13 +28,13 @@
                 total: 0,
                 // 默认图片
                 defaultPic: "http://image4.suning.cn/uimg/b2c/newcatentries/0000000000-000000000606013705_1_400x400.jpg",
-                isLoading: false
+                isLoading: false 
             };
         },
         
         onLoad(options) {
             // 页面参数转存到queryObj
-            console.log(options)
+            // console.log(options)
             this.queryObj.query = options.query || ''
             this.queryObj.cid = options.cid || ''
             this.getGoodsList()
@@ -86,4 +86,5 @@
 .goods-list {
     margin: 0 5px 5px 5px;
 }
+
 </style>
