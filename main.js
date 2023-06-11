@@ -1,4 +1,5 @@
 import App from './App'
+import store from '@/store/store.js'
 
 // 导入网络请求包
 import { $http } from '@escook/request-miniprogram'
@@ -26,7 +27,8 @@ import './uni.promisify.adaptor'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
-  ...App
+  ...App,
+  store // 配置store的vuex
 })
 app.$mount()
 // #endif
@@ -35,6 +37,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
+  // app.use(store)
   return {
     app
   }

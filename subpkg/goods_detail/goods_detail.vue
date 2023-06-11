@@ -32,7 +32,45 @@
 </template>
 
 <script>
+    import {mapState, mapMutations, mapGetters} from 'vuex'
+    
     export default {
+        // 监听器监听计算属性变化
+        watch: {
+            // // 监听total计算属性的变化，第一个参数为变化后新值
+            // // 页面首次加载完毕后，不会调用这个监听器
+            // total(newVal) {
+            //     const findResult = this.options.find(x => x.text === '购物车')
+            //     if (findResult) {
+            //         //动态赋值属性
+            //         findResult.info = newVal
+            //     }
+            // }
+            
+            // 定义total监听器，指向一个配置对象
+            total: {
+                // handler属性用来定义监听器的function处理函数
+                handler(newVal) {
+                    const findResult = this.options.find(x => x.text === '购物车')
+                    if (findResult) {
+                        //动态赋值属性
+                        findResult.info = newVal
+                    }
+                },
+                
+                // immediate属性用来申明此监听器，是否在页面初次加载完毕后立即调用
+                immediate: true
+            }
+            
+        },
+        computed: {
+            // 调用mapState，把m_cart中的cart数组映射到当前页面中，作为计算属性使用
+            // ...mapState('模块名', ['要映射的数据1', '要映射的数据2'])
+            // ...mapState('m_cart', ['cart']),
+            // 把m_cart中的total计算属性映射到当前页面中
+            ...mapGetters('m_cart', ['total'])
+            
+        },
         data() {
             return {
                 goodsId: -1,
@@ -51,7 +89,7 @@
                     }, {
                         icon: 'cart',
                         text: '购物车',
-                        info: 2
+                        info: 0
                     }],
                     buttonGroup: [{
                       text: '加入购物车',
@@ -75,8 +113,13 @@
         onLoad(option) {
             this.goodsId = option.goods_id
             this.getGoodsDetail()
+            // const findRes = this.options.find(x => x.text === '购物车')
+            // if (findRes) {
+            //     findRes.info = this.total
+            // }
         },
         methods: {
+            ...mapMutations('m_cart', ['addToCart']),
             async getGoodsDetail() {
                 const {data: res} = await uni.$http.get('/api/public/v1/goods/detail', {'goods_id': this.goodsId})
                 
@@ -101,12 +144,24 @@
                         url: '/pages/cart/cart'
                     })
                 }
-                
             },
             buttonClick (e) {
-                if (e.con)
                 console.log(e)
-                this.options[1].info++
+                if (e.content.text === '加入购物车') {
+                    // {goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state}
+                    const goods = {
+                        goods_id: this.goodsDetail.goods_id,
+                        goods_name: this.goodsDetail.goods_name,
+                        goods_price: this.goodsDetail.goods_price,
+                        goods_count: 1,
+                        goods_small_logo: this.goodsDetail.goods_small_logo,
+                        goods_state: true     
+                    }
+                    this.addToCart(goods)
+                }
+                
+                
+                // this.options[1].info++
             }
             
         },

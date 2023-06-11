@@ -42,8 +42,11 @@
 </template>
 
 <script>
-import { $http } from '@escook/request-miniprogram';
+    import { $http } from '@escook/request-miniprogram';
+    import badageMix from '@/mixins/tabbar-badage.js'
+    
     export default {
+        mixins: [badageMix],
         data() {
             return {
                 // 轮播图数组

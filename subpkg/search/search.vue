@@ -69,6 +69,16 @@
                 // console.log(this.searchResults)
             },
             
+            async onClickHistory(item) {
+                // const {data: res} = await uni.$http.get('/api/public/v1/goods/qsearch?query=' + this.query)
+                const {data: res} = await uni.$http.get('/api/public/v1/goods/qsearch', {query: item})
+                if (res.meta.status != 200) {
+                    return uni.$showMsg()
+                }
+                this.searchResults = res.message
+                // console.log(this.searchResults)
+            },
+            
             // gotoGoodsDetail(e) {
             //     uni.navigateTo({
             //         url: '/subpkg/goods_detail/goods_detail?good_id=' + e
