@@ -14,22 +14,26 @@
         </view>
         
         <!-- 结算 -->
-        <view class="settle-btn">结算({{checkedCount}})</view>
+        <view class="settle-btn" @click="settlement">结算({{checkedCount}})</view>
     </view>
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex'
+    import { mapGetters, mapMutations, mapState } from 'vuex'
     
     export default {
         name:"my-settle",
         data() {
             return {
-                
+                seconds: 3,
+                timer: null //定时器id
             };
         },
         computed: {
             ...mapGetters('m_cart', ['checkedCount', 'total', 'checkedPrice']),
+            ...mapGetters('m_user', ['addressDetail']),
+            ...mapState('m_user', ['token']),
+            
             
             // 是否全选
             isFullCheck() {
@@ -43,8 +47,49 @@
             ...mapMutations('m_cart', ['changeAllGoodsState']),
             
             radioStateChange() {
-                console.log("radioStateChange...beging")
+                console.log("radioStateChage...beging")
                 this.changeAllGoodsState(!this.isFullCheck)
+            },
+            
+            settlement() {
+                if (this.total <= 0) {
+                    return uni.$showMsg("请添加商品到购物车！")
+                }
+                if (this.checkedCount <= 0) {
+                    return uni.$showMsg("请选则要结算的商品！")
+                }
+                if (!this.addressDetail) {
+                    return uni.$showMsg("请选择收获地址！")
+                }
+                if (!this.token) {
+                    return this.delayAutoLogin()
+                }
+            },
+            
+            showTips(n) {
+                return uni.showToast({
+                    icon: 'none',
+                    title: '请登陆后再结算!' + n + '秒后自动跳转到登陆页!',
+                    mask: true,
+                    duration: 1500
+                })
+            },
+            
+            delayAutoLogin() {
+                this.seconds = 3
+                this.showTips(this.seconds)
+                this.timer = setInterval(() => {
+                    console.log("this.seconds", this.seconds)
+                    if (this.seconds <= 0) {
+                        clearInterval(this.timer)
+                        uni.switchTab({
+                            url: '/pages/mine/mine'
+                        })
+                        return 
+                    }
+                    this.seconds--
+                    this.showTips(this.seconds)
+                }, 1000)
             }
         }
     }

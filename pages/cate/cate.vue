@@ -36,7 +36,10 @@
 
 <script>
     import { $http } from '@escook/request-miniprogram';
+    import badageMix from '@/mixins/tabbar-badage.js'
+    
     export default {
+        mixins: [badageMix],
         data() {
             return {
                 windowHeight: 0, //当前设备屏幕可用高度

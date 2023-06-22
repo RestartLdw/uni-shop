@@ -1,6 +1,6 @@
 {
-    "name" : "uni-shop",
-    "appid" : "",
+    "name" : "花木团购",
+    "appid" : "__UNI__5009371",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -53,12 +53,10 @@
         "appid" : "wxc274905ced22cfce",
         "setting" : {
             "urlCheck" : false,
-            "checkSiteMap": false
+            "checkSiteMap" : false
         },
         "usingComponents" : true,
-        "requiredPrivateInfos": [
-            "chooseAddress"
-        ]
+        "requiredPrivateInfos" : [ "chooseAddress" ]
     },
     "mp-alipay" : {
         "usingComponents" : true
