@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex'
+    import { mapMutations, mapState, mapGetters } from 'vuex'
     
     export default {
         name:"my-login",
@@ -19,8 +19,11 @@
                 
             };
         },
+        computed: {
+            ...mapGetters('m_user', ['getRedictInfo']),
+        },
         methods: {
-            ...mapMutations('m_user', ['updateUserInfo', 'updateToken']),
+            ...mapMutations('m_user', ['updateUserInfo', 'updateToken', 'updateRedictInfo']),
             
             async getUserInfo() {
                 const res = await uni.getUserProfile({desc: '请求用户头像'}).catch(err => err)
@@ -50,6 +53,21 @@
                 //     return uni.$showMsg('登录失败')
                 // } 
                 this.updateToken('mock_token')
+                
+                // 成功登陆后，回退
+                this.navigateBack()
+            },
+            
+            navigateBack() {
+                console.log(this.getRedictInfo)
+                if (this.getRedictInfo.openType === 'switchTab') {
+                    uni.switchTab({
+                        url: this.getRedictInfo.from,
+                        complete: () => {
+                            this.updateRedictInfo({})
+                        }
+                    })
+                }
             }
         } 
     }

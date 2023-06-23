@@ -45,6 +45,7 @@
         
         methods: {
             ...mapMutations('m_cart', ['changeAllGoodsState']),
+            ...mapMutations('m_user', ['updateRedictInfo']),
             
             radioStateChange() {
                 console.log("radioStateChage...beging")
@@ -83,7 +84,14 @@
                     if (this.seconds <= 0) {
                         clearInterval(this.timer)
                         uni.switchTab({
-                            url: '/pages/mine/mine'
+                            url: '/pages/mine/mine',
+                            success: () => {
+                                this.updateRedictInfo({
+                                    openType: 'switchTab',
+                                    from: '/pages/cart/cart'
+                                    
+                                })
+                            }
                         })
                         return 
                     }

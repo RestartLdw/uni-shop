@@ -69,10 +69,10 @@
                         <view class="collect-shop-text">收获地址</view>
                         <uni-icons type="right"></uni-icons>
                     </view>
-                    <view class="panel-info2">
+                    <button class="panel-info2-btn" open-type="contact">
                         <view class="collect-goods-text">联系客服</view>
                         <uni-icons type="right"></uni-icons>
-                    </view>
+                    </button>
                     <view class="panel-info2" @click="exit">
                         <view class="follow-goods-text">退出登陆</view>
                         <uni-icons type="right"></uni-icons>
@@ -218,6 +218,22 @@
                     font-size: 15px;
                     padding: 10px 0;
                 }
+                
+                .panel-info2-btn {
+                    background-color: white;
+                    width: 100%;
+                   
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 15px;
+                    padding: 10px 0;
+                    &::after {
+                        border: none;
+                    }
+                }
+                // .panel-info2-btn::after {
+                //     border: none;
+                // }
             }
             
         }
